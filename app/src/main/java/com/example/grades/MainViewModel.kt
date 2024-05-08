@@ -14,5 +14,9 @@ class MainViewModel : ViewModel()
     {
         _currentScreen.value = screen
     }
+
+    var credits = arrayOf(0, 0, 0, 0, 0, 0, 0, 0)
+    var spi = arrayOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+    var cpi = arrayOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 }
 

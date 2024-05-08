@@ -1,5 +1,6 @@
 package com.example.grades.AppScreens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -38,16 +39,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.grades.Data.CourseData
 import com.example.grades.MainViewModel
 
+@SuppressLint("MutableCollectionMutableState")
 @Composable
 fun Home(
-    courses : List<CourseData>
+    courses : List<CourseData>,
+    viewModel: MainViewModel
 ) {
     val scrollState = rememberScrollState()
-    val viewModel : MainViewModel = viewModel()
+
+    val credits by remember { mutableStateOf(viewModel.credits) }
+    val spi by remember { mutableStateOf(viewModel.spi) }
+    val cpi by remember { mutableStateOf(viewModel.cpi) }
 
     Column (
         modifier = Modifier
@@ -74,7 +79,7 @@ fun Home(
                         .padding(8.dp)
                         .background(Color(0xff023047))
                 ) {
-                    SPI_CPI(courses, 6)
+                    SPI_CPI(courses, 6, credits, spi, cpi)
                 }
             }
         }
@@ -342,12 +347,13 @@ fun CourseBox(courseData: CourseData)
                         }
                     }
                 ) {
-                    Text(text = "Add")
+                    Text(text = "Confirm")
                 }
             },
             dismissButton = {
                 Button(
-                    onClick = { showDialog.value = false }
+                    onClick = { courseData.sem = 0
+                        showDialog.value = false }
                 ) {
                     Text(text = "Cancel")
                 }
@@ -384,8 +390,13 @@ fun CourseBox(courseData: CourseData)
 }
 
 @Composable
-fun SPI_CPI(courses : List<CourseData>, sem : Int )
-{
+fun SPI_CPI(
+    courses: List<CourseData>,
+    sem: Int,
+    credits : Array<Int>,
+    spi: Array<Double>,
+    cpi: Array<Double>
+) {
     var totalCredits = 0
     var totalGrades = 0
 
@@ -397,8 +408,20 @@ fun SPI_CPI(courses : List<CourseData>, sem : Int )
         }
     }
 
-    val spi = totalGrades.toFloat() / totalCredits
-    val cpi = totalGrades.toFloat() / totalCredits
+    spi[sem - 1] = totalGrades.toDouble() / totalCredits
+
+    if( sem >= 2 )
+    {
+        cpi[sem-1] = (cpi[sem-2]*credits[sem-2] + totalGrades) / (credits[sem-2] + totalCredits).toDouble()
+        credits[sem-1] = credits[sem-2] + totalCredits
+    }
+    else
+    {
+        cpi[0] = spi[0]
+        credits[0] = totalCredits
+    }
+
+
 
     Row (
         modifier = Modifier
@@ -418,7 +441,7 @@ fun SPI_CPI(courses : List<CourseData>, sem : Int )
                     .padding(8.dp)
             ) {
                 Text(
-                    text = "SPI : $spi",
+                    text = "SPI : ${String.format("%.2f", spi[sem-1])}",
                     color = Color.Black,
                     fontSize = 20.sp
                 )
@@ -437,7 +460,7 @@ fun SPI_CPI(courses : List<CourseData>, sem : Int )
                     .padding(8.dp)
             ) {
                 Text(
-                    text = "CPI : $cpi",
+                    text = "CPI : ${String.format("%.2f", cpi[sem-1])}",
                     color = Color.Black,
                     fontSize = 20.sp
                 )

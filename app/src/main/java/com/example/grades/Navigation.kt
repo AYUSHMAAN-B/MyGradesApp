@@ -22,7 +22,8 @@ import com.example.grades.Data.CourseData
 fun Navigation(
     navController : NavController,
     padding : PaddingValues,
-    courses : List<CourseData>
+    courses : List<CourseData>,
+    viewModel : MainViewModel
 )
 {
     NavHost(
@@ -30,34 +31,34 @@ fun Navigation(
         startDestination = "sem1"
     ) {
         composable("home") {
-            Home(courses)
+            Home(courses, viewModel)
         }
         composable("overall") {
             Overall()
         }
         composable("sem1") {
-            Sem1(courses)
+            Sem1(courses, viewModel)
         }
         composable("sem2") {
-            Sem2(courses)
+            Sem2(courses, viewModel)
         }
         composable("sem3") {
-            Sem3(courses)
+            Sem3(courses, viewModel)
         }
         composable("sem4") {
-            Sem4(courses)
+            Sem4(courses, viewModel)
         }
         composable("sem5") {
-            Sem5(courses)
+            Sem5(courses, viewModel)
         }
         composable("sem6") {
-            Sem6(courses)
+            Sem6(courses, viewModel)
         }
         composable("sem7") {
-            Sem7(courses)
+            Sem7(courses, viewModel)
         }
         composable("sem8") {
-            Sem8(courses)
+            Sem8(courses, viewModel)
         }
     }
 }

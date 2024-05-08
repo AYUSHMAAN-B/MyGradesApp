@@ -354,7 +354,8 @@ fun App()
              Navigation(
                  navController = navController,
                  padding = it,
-                 courses = courses)
+                 courses = courses,
+                 viewModel = viewModel)
         },
         floatingActionButton = {
             FloatingActionButton(

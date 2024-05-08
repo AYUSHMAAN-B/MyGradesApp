@@ -32,9 +32,7 @@ class MainActivity : ComponentActivity() {
 
 /* TODO */
 /**
- * Calculate Correct CPI for each semester
  * Deleting the Course
- * Add database for the Current Semester Courses
- * Add database for the Overall Courses
+ * Add memory in phone
  * Overall Performance in Overall Screen
  * */
