@@ -32,8 +32,7 @@ class MainActivity : ComponentActivity() {
 
 /* TODO */
 /**
- * Touch and Hold for EDIT / DELETE
- * Editing the Course
+ * Calculate Correct CPI for each semester
  * Deleting the Course
  * Add database for the Current Semester Courses
  * Add database for the Overall Courses

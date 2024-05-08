@@ -66,12 +66,12 @@ fun App()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     var expanded by remember { mutableStateOf(false) }
-    var semester by remember { mutableStateOf("") }
 
     var courses by remember { mutableStateOf(listOf<CourseData>()) }
     var courseName by remember { mutableStateOf("") }
     var courseCredits by remember { mutableStateOf("") }
     var courseGrade by remember { mutableStateOf("") }
+    var semester by remember { mutableStateOf("") }
 
     val showDialog = remember { mutableStateOf(false) }
 

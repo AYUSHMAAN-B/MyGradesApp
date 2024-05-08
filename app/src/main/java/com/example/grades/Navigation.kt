@@ -36,13 +36,13 @@ fun Navigation(
             Overall()
         }
         composable("sem1") {
-            Sem1()
+            Sem1(courses)
         }
         composable("sem2") {
-            Sem2()
+            Sem2(courses)
         }
         composable("sem3") {
-            Sem3()
+            Sem3(courses)
         }
         composable("sem4") {
             Sem4(courses)
