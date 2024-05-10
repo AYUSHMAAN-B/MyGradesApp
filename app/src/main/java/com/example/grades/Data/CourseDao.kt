@@ -14,14 +14,11 @@ abstract class CourseDao
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun addCourse(course : Course )
 
-    @Delete
-    abstract suspend fun deleteCourse(course : Course)
+    @Query("DELETE FROM `course_table` WHERE `id`=:id")
+    abstract suspend fun deleteCourse(id : Int)
 
     @Update
     abstract suspend fun updateCourse(course : Course)
-
-    @Query("SELECT * FROM `course_table` WHERE id=:id")
-    abstract fun getCourseById(id : Int) : Flow<Course>
 
     @Query("SELECT * FROM `course_table`")
     abstract fun getAllCourses() : Flow<List<Course>>

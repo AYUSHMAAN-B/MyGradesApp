@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.grades.Data.Course
 import com.example.grades.Data.CourseRepository
+import com.example.grades.Graph.courseRepository
 import com.example.grades.ui.theme.GradesTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -37,10 +38,9 @@ class MainViewModel ( private val courseRepository : CourseRepository = Graph.co
         }
     }
 
-    fun deleteCourse(course : Course)
-    {
+    fun deleteCourse(id : Int) {
         viewModelScope.launch {
-            courseRepository.deleteCourse(course)
+            courseRepository.deleteCourse(id)
         }
     }
 
