@@ -16,6 +16,7 @@ import com.example.grades.ui.theme.GradesTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Graph.provide(this)
         setContent {
             GradesTheme {
                 // A surface container using the 'background' color from the theme

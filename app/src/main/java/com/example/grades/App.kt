@@ -10,12 +10,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationDefaults
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -37,6 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,7 +51,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.grades.Data.CourseData
+import com.example.grades.Data.Course
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,11 +66,12 @@ fun App()
     val scope = rememberCoroutineScope()
     var expanded by remember { mutableStateOf(false) }
 
-    var courses by remember { mutableStateOf(listOf<CourseData>()) }
     var courseName by remember { mutableStateOf("") }
     var courseCredits by remember { mutableStateOf("") }
     var courseGrade by remember { mutableStateOf("") }
     var semester by remember { mutableStateOf("") }
+
+    val courses = viewModel.getAllCourses.collectAsState(initial = listOf()).value
 
     val showDialog = remember { mutableStateOf(false) }
 
@@ -223,13 +223,14 @@ fun App()
                             && courseGrade.toInt() > 0
                             && semester.isNotEmpty() )
                         {
-                            courses += CourseData(
-                                id = courses.size + 1,
-                                name = courseName,
-                                credits = courseCredits.toInt(),
-                                grade = courseGrade.toInt(),
-                                sem = semester.toInt(),
-                                isEditing = false)
+                            viewModel.addCourse(
+                                Course(
+                                    id = courses.size + 1,
+                                    name = courseName,
+                                    credits = courseCredits.toInt(),
+                                    grade = courseGrade.toInt(),
+                                    sem = semester.toInt())
+                            )
 
                             courseName = ""
                             courseCredits = ""
@@ -354,7 +355,6 @@ fun App()
              Navigation(
                  navController = navController,
                  padding = it,
-                 courses = courses,
                  viewModel = viewModel)
         },
         floatingActionButton = {
@@ -383,28 +383,4 @@ val screensInSemester = listOf(
     Screens.Sem6,
     Screens.Sem7,
     Screens.Sem8
-)
-
-var dummyCourses = listOf(
-    CourseData(1, "DAA", 6, 8, 4, false),
-    CourseData(2, "Artificial Intelligence", 6, 7, 4, false),
-    CourseData(3, "Automata Theory", 8, 6, 4, false),
-    CourseData(4, "Digital Systems", 6, 9, 4, false),
-    CourseData(5, "Digital Systems Lab", 3, 9, 4, false),
-    CourseData(6, "EVS", 6, 5, 4, false),
-
-    CourseData(7, "CA", 6, 7, 5, false),
-    CourseData(8, "CA Lab", 3, 9, 5, false),
-    CourseData(9, "DBMS", 6, 10, 5, false),
-    CourseData(10, "DBMS Lab", 3, 10, 5, false),
-    CourseData(11, "SDSC", 6, 9, 5, false),
-    CourseData(12, "Philosophy", 6, 9, 5, false),
-    CourseData(13, "Astrophysics", 6, 8, 5, false),
-
-    CourseData(15, "Computer Networks", 6, 8, 6, false),
-    CourseData(16, "Computer Networks Lab", 3, 8, 6, false),
-    CourseData(17, "Operating Systems", 6, 9, 6, false),
-    CourseData(18, "Operating Systems Lab", 3, 9, 6, false),
-    CourseData(19, "Compilers", 6, 9, 6, false),
-    CourseData(20, "Compilers Lab", 3, 9, 6, false),
 )

@@ -16,13 +16,11 @@ import com.example.grades.AppScreens.Sem5
 import com.example.grades.AppScreens.Sem6
 import com.example.grades.AppScreens.Sem7
 import com.example.grades.AppScreens.Sem8
-import com.example.grades.Data.CourseData
 
 @Composable
 fun Navigation(
     navController : NavController,
     padding : PaddingValues,
-    courses : List<CourseData>,
     viewModel : MainViewModel
 )
 {
@@ -31,34 +29,34 @@ fun Navigation(
         startDestination = "sem1"
     ) {
         composable("home") {
-            Home(courses, viewModel)
+            Home(viewModel)
         }
         composable("overall") {
             Overall()
         }
         composable("sem1") {
-            Sem1(courses, viewModel)
+            Sem1(viewModel)
         }
         composable("sem2") {
-            Sem2(courses, viewModel)
+            Sem2(viewModel)
         }
         composable("sem3") {
-            Sem3(courses, viewModel)
+            Sem3(viewModel)
         }
         composable("sem4") {
-            Sem4(courses, viewModel)
+            Sem4(viewModel)
         }
         composable("sem5") {
-            Sem5(courses, viewModel)
+            Sem5(viewModel)
         }
         composable("sem6") {
-            Sem6(courses, viewModel)
+            Sem6(viewModel)
         }
         composable("sem7") {
-            Sem7(courses, viewModel)
+            Sem7(viewModel)
         }
         composable("sem8") {
-            Sem8(courses, viewModel)
+            Sem8(viewModel)
         }
     }
 }

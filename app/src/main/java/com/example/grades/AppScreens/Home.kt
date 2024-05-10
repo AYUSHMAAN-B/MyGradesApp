@@ -28,6 +28,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,13 +40,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.grades.Data.CourseData
+import com.example.grades.Data.Course
 import com.example.grades.MainViewModel
 
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun Home(
-    courses : List<CourseData>,
     viewModel: MainViewModel
 ) {
     val scrollState = rememberScrollState()
@@ -54,6 +54,8 @@ fun Home(
     val spi by remember { mutableStateOf(viewModel.spi) }
     val cpi by remember { mutableStateOf(viewModel.cpi) }
 
+    val courses = viewModel.getAllCourses.collectAsState(initial = listOf()).value
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -61,7 +63,7 @@ fun Home(
             .verticalScroll(scrollState)
     ) {
         courses.forEach {
-            CourseBox(it)
+            CourseBox(it, viewModel)
         }
 
         if( courses.isNotEmpty() && viewModel.currentScreen.value.title != "HOME" )
@@ -89,7 +91,7 @@ fun Home(
 }
 
 @Composable
-fun CourseBox(courseData: CourseData)
+fun CourseBox(course: Course, viewModel : MainViewModel)
 {
     var showOptions by remember { mutableStateOf(false) }
     val showDialog = remember { mutableStateOf(false) }
@@ -125,7 +127,7 @@ fun CourseBox(courseData: CourseData)
                         .clip(RoundedCornerShape(10.dp))
                 ) {
                     Text(
-                        text =  courseData.name,
+                        text =  course.name,
                         color = Color.Black
                     )
                 }
@@ -150,7 +152,7 @@ fun CourseBox(courseData: CourseData)
                             .clip(RoundedCornerShape(10.dp))
                     ) {
                         Text(
-                            text = "Credits : " + courseData.credits.toString(),
+                            text = "Credits : " + course.credits.toString(),
                             color = Color.Black
                         )
                     }
@@ -171,7 +173,7 @@ fun CourseBox(courseData: CourseData)
                             .clip(RoundedCornerShape(10.dp))
                     ) {
                         Text(
-                            text = "Grade : " + courseData.grade.toString(),
+                            text = "Grade : " + course.grade.toString(),
                             color = Color.Black
                         )
                     }
@@ -182,10 +184,10 @@ fun CourseBox(courseData: CourseData)
 
     if(showDialog.value)
     {
-        var courseName by remember { mutableStateOf(courseData.name) }
-        var courseCredits by remember { mutableStateOf(courseData.credits.toString()) }
-        var courseGrade by remember { mutableStateOf(courseData.grade.toString()) }
-        var semester by remember { mutableStateOf(courseData.sem.toString()) }
+        var courseName by remember { mutableStateOf(course.name) }
+        var courseCredits by remember { mutableStateOf(course.credits.toString()) }
+        var courseGrade by remember { mutableStateOf(course.grade.toString()) }
+        var semester by remember { mutableStateOf(course.sem.toString()) }
         var expanded by remember { mutableStateOf(false) }
 
         AlertDialog(
@@ -334,10 +336,17 @@ fun CourseBox(courseData: CourseData)
                             && courseGrade.toInt() > 0
                             && semester.isNotEmpty() )
                         {
-                            courseData.name = courseName
-                            courseData.credits = courseCredits.toInt()
-                            courseData.grade = courseGrade.toInt()
-                            courseData.sem = semester.toInt()
+
+                            viewModel.updateCourse(
+                                Course(
+                                    id = course.id,
+                                    name = courseName,
+                                    credits = courseCredits.toInt(),
+                                    grade = courseGrade.toInt(),
+                                    sem = semester.toInt()
+                                )
+                            )
+                        }
 
                             courseName = ""
                             courseCredits = ""
@@ -345,14 +354,13 @@ fun CourseBox(courseData: CourseData)
                             semester = ""
                             showDialog.value = false
                         }
-                    }
                 ) {
                     Text(text = "Confirm")
                 }
             },
             dismissButton = {
                 Button(
-                    onClick = { courseData.sem = 0
+                    onClick = { viewModel.deleteCourse(course)
                         showDialog.value = false }
                 ) {
                     Text(text = "Cancel")
@@ -391,7 +399,7 @@ fun CourseBox(courseData: CourseData)
 
 @Composable
 fun SPI_CPI(
-    courses: List<CourseData>,
+    courses: List<Course>,
     sem: Int,
     credits : Array<Int>,
     spi: Array<Double>,
