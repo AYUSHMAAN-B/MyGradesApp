@@ -34,6 +34,4 @@ class MainActivity : ComponentActivity() {
 /* TODO */
 /**
  * Deleting the Course
- * Add memory in phone
- * Overall Performance in Overall Screen
  * */

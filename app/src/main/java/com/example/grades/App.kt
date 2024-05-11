@@ -305,6 +305,9 @@ fun App()
                                         currentScreen.value = screen
                                         title.value = screen.title
                                         viewModel.setScreen(screen)
+                                        scope.launch {
+                                            scaffoldState.drawerState.close()
+                                        }
                                         navController.navigate(screen.route)
                                     })
                         }

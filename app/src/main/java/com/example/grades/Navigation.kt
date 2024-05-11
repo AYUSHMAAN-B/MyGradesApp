@@ -32,7 +32,7 @@ fun Navigation(
             Home(viewModel)
         }
         composable("overall") {
-            Overall()
+            Overall(viewModel)
         }
         composable("sem1") {
             Sem1(viewModel)
