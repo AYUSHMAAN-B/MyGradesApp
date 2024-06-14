@@ -360,7 +360,7 @@ fun CourseBox(course: Course, viewModel : MainViewModel)
             },
             dismissButton = {
                 Button(
-                    onClick = { viewModel.deleteCourse(course.id)
+                    onClick = {
                         showDialog.value = false }
                 ) {
                     Text(text = "Cancel")
@@ -388,7 +388,8 @@ fun CourseBox(course: Course, viewModel : MainViewModel)
             },
             dismissButton = {
                 Button(
-                    onClick = { showOptions = false }
+                    onClick = { viewModel.deleteCourse(course.id)
+                        showOptions = false }
                 ) {
                     Text(text = "Delete")
                 }

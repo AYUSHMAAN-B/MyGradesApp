@@ -32,10 +32,7 @@ import com.example.grades.MainViewModel
 @Composable
 fun Overall(
     viewModel: MainViewModel
-)
-{
-    val semesters = listOf("Semester 1", "Semester 2", "Semester 3", "Semester 4", "Semester 5", "Semester 6", "Semester 7", "Semester 8").groupBy { it[0] }
-
+) {
     val courses = viewModel.getAllCourses.collectAsState(initial = listOf()).value
 
     val sem1Courses = courses.filter { it.sem == 1 }

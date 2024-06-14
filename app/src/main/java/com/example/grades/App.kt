@@ -71,6 +71,8 @@ fun App()
     var courseGrade by remember { mutableStateOf("") }
     var semester by remember { mutableStateOf("") }
 
+    var semoption by remember { mutableStateOf("Semester") }
+
     val courses = viewModel.getAllCourses.collectAsState(initial = listOf()).value
 
     val showDialog = remember { mutableStateOf(false) }
@@ -145,7 +147,7 @@ fun App()
                                modifier = Modifier
                                    .padding(bottom = 8.dp))
                            {
-                               Text("Semester")
+                               Text(semoption)
                                Icon(
                                    Icons.Default.ArrowDropDown,
                                    contentDescription = "Drop Down Arrow"
@@ -159,6 +161,7 @@ fun App()
                                    text = { Text("Semester 1") },
                                    onClick = {
                                        semester = "1"
+                                       semoption = "Semester 1"
                                        expanded = false
                                    }
                                )
@@ -166,6 +169,7 @@ fun App()
                                    text = { Text("Semester 2") },
                                    onClick = {
                                        semester = "2"
+                                       semoption = "Semester 2"
                                        expanded = false
                                    }
                                )
@@ -173,6 +177,7 @@ fun App()
                                    text = { Text("Semester 3") },
                                    onClick = {
                                        semester = "3"
+                                       semoption = "Semester 3"
                                        expanded = false
                                    }
                                )
@@ -180,6 +185,7 @@ fun App()
                                    text = { Text("Semester 4") },
                                    onClick = {
                                        semester = "4"
+                                       semoption = "Semester 4"
                                        expanded = false
                                    }
                                )
@@ -187,6 +193,7 @@ fun App()
                                    text = { Text("Semester 5") },
                                    onClick = {
                                        semester = "5"
+                                       semoption = "Semester 5"
                                        expanded = false
                                    }
                                )
@@ -194,6 +201,7 @@ fun App()
                                    text = { Text("Semester 6") },
                                    onClick = {
                                        semester = "6"
+                                       semoption = "Semester 6"
                                        expanded = false
                                    }
                                )
@@ -201,6 +209,7 @@ fun App()
                                    text = { Text("Semester 7") },
                                    onClick = {
                                        semester = "7"
+                                       semoption = "Semester 7"
                                        expanded = false
                                    }
                                )
@@ -208,6 +217,7 @@ fun App()
                                    text = { Text("Semester 8") },
                                    onClick = {
                                        semester = "8"
+                                       semoption = "Semester 8"
                                        expanded = false
                                    }
                                )
@@ -237,6 +247,7 @@ fun App()
                             courseGrade = ""
                             semester = ""
                             showDialog.value = false
+                            semoption = "Semester"
                         }
                     }
                  ) {
